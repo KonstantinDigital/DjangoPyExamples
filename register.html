@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="row title">
+      <div class="col">
+          <h2>{{ title }}</h2>
+      </div>
+  </div>
+  <div class="row register-form">
+    <div class="col"></div>
+    <div class="col-8">
+      <form id="register-form" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          <span class="input-group-text small-text padding-right-9" id="basic-addon1">ФИО (на русском языке)</span>
+          {{ form.surname_ru }}
+          {{ form.name_ru }}
+          {{ form.patronymic_ru }}
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text small-text" id="basic-addon2">ФИО (англ-ий  транслит)</span>
+          {{ form.surname_en }}
+          {{ form.name_en }}
+          {{ form.patronymic_en }}
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-4 text-left">
+            <label for="id_phone" class="col-form-label">Личный мобильный номер телефона:</label>
+          </div>
+          <div class="col-8">
+            {{ form.phone }}
+          </div>
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-4 text-left">
+            <label for="id_email" class="col-form-label">Электронная почта:</label>
+          </div>
+          <div class="col-8">
+            {{ form.email }}
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="id_organization" class="form-label">Название организации, в которой работаете:</label>
+          <div class="input-group">
+            {{ form.organization }}
+          </div>
+          <div class="form-text" id="basic-addon3">(полностью по Уставу организации)</div>
+        </div>
+
+        <div class="mb-4">
+          <label for="id_job_title" class="form-label">Должность:</label>
+          <div class="input-group">
+            {{ form.job_title }}
+          </div>
+          <div class="form-text" id="basic-addon4">(штатная должность в организации)</div>
+        </div>
+
+        <div class="mb-2">
+          <div class="row">
+            <label class="form-label text-left">Публикация в сборнике научных трудов РИНЦ:</label>
+          </div>
+          {% for select in form.public_rinc %}
+            <div class="form-check form-check-inline">
+              {{ select }}
+            </div>
+          {% endfor %}
+        </div>
+        <div id="rinc_article_div">
+          <div class="input-group mb-4 text-left" id="hidden_fields_public_rinc_article_writer">
+            <label class="input-group-text small-text text-wrap" style="width: 6rem;">
+              ФИО автора</label>
+            <div class="col-9" id="fio-list">
+                <textarea id="id_public_rinc_article_writer" class="form-control input-fio" rows="1"></textarea>
+            </div>
+            <input id="add-input" class="btn btn-outline-primary" type="button" onclick="AddFioList()" value="+" />
+          </div>
+
+          <div class="input-group mb-4 text-left" id="hidden_fields_public_rinc_article_title">
+            <label class="input-group-text small-text text-wrap" style="width: 6rem;">
+              Наименование статьи</label>
+            <textarea id="id_public_rinc_article_title" class="form-control" cols="40" rows="5"></textarea>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary mb-4 add_article" id="hidden_fields_public_rinc_article_btn">Добавить статью</button>
+
+        <div class="mb-2">
+          <div class="row">
+            <label class="form-label text-left">Публикация в журнале, индексируемом библиографическими базами данных
+              Web of Science и/или Scopus:</label>
+          </div>
+          {% for select in form.public_scopus %}
+            <div class="form-check form-check-inline">
+              {{ select }}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div id="scopus_article_div">
+          <div class="input-group mb-4 text-left" id="hidden_fields_public_scopus_article_writer">
+            <label class="input-group-text small-text text-wrap" style="width: 6rem;">
+              ФИО автора</label>
+            <div class="col-9" id="fio-list-scopus">
+                <textarea id="id_public_scopus_article_writer" class="form-control input-fio-scopus" rows="1"></textarea>
+            </div>
+            <input id="add-input-scopus" class="btn btn-outline-primary" type="button" onclick="AddFioListScopus()" value="+" />
+          </div>
+
+          <div class="input-group mb-4 text-left" id="hidden_fields_public_scopus_article_title">
+            <label class="input-group-text small-text text-wrap" style="width: 6rem;">
+              Наименование статьи</label>
+            <textarea id="id_public_scopus_article_title" class="form-control" cols="40" rows="5"></textarea>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-primary mb-4 add_article_scopus" id="hidden_fields_public_scopus_article_btn">Добавить статью</button>
+
+        <div class="mb-2">
+          <div class="row">
+            <label class="form-label text-left">Повышение квалификации (72 часа):</label>
+          </div>
+          {% for select in form.training %}
+            <div class="form-check form-check-inline">
+              {{ select }}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="input-group mb-4 text-left" id="hidden_fields_training_details">
+          <label for="id_training_details" class="input-group-text small-text text-wrap" style="width: 7rem;">
+            Наименование образовательной программы и полное(ые) ФИО слушателя(ей)</label>
+          {{ form.training_details }}
+        </div>
+
+        <div class="mb-2">
+          <div class="row">
+            <label class="form-label text-left">Я планирую учавствовать в конференции:</label>
+          </div>
+          {% for select in form.participation %}
+            <div class="form-check form-check-inline">
+              {{ select }}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-4 text-left">
+            <label for="id_username" class="col-form-label">Логин:</label>
+          </div>
+          <div class="col-8">
+            {{ form.username }}
+            {{ form.username.errors }}
+          </div>
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-4 text-left">
+            <label for="id_password1" class="col-form-label">Пароль:</label>
+          </div>
+          <div class="col-8">
+            {{ form.password1 }}
+            {{ form.password.errors }}
+            <div class="form-text" id="basic-addon5">(минимум 8 символов, не может состоять из одних цифр)</div>
+          </div>
+
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-4 text-left">
+            <label for="id_password2" class="col-form-label">Подтвердите пароль:</label>
+          </div>
+          <div class="col-8">
+            {{ form.password2 }}
+            {{ form.password.errors }}
+          </div>
+        </div>
+
+<!--        <div class="row mb-3 align-items-center">-->
+<!--          <div class="col-4 text-left">-->
+<!--            <label for="id_captcha_1" class="col-form-label">Введите код с картинки:</label>-->
+<!--          </div>-->
+<!--          <div class="col-8">-->
+<!--            {{ form.captcha }}-->
+<!--          </div>-->
+<!--        </div>-->
+
+        <button type="submit" class="btn btn-primary submit">Зарегистрироваться</button>
+      </form>
+    </div>
+    <div class="col"></div>
+  </div>
+{% endblock %}
