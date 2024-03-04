@@ -8,7 +8,7 @@ from .models import CustomUser
 
 
 class UserLoginForm(AuthenticationForm):
-    username = forms.CharField(label='Логин', help_text='Максимум 150 символов',
+    username = forms.CharField(label='Логин', help_text='Максимум 20 символов',
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='Пароль',
                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
@@ -21,27 +21,27 @@ class UserRegisterForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({'autofocus': False})
 
-    name_ru = forms.CharField(label='Имя', help_text='Максимум 150 символов',
+    name_ru = forms.CharField(label='Имя', help_text='Максимум 20 символов',
                               widget=forms.TextInput(
                                   attrs={'class': 'form-control form-control-sm', 'placeholder': 'Имя',
                                          'aria-label': "Имя", 'aria-describedby': 'basic-addon1'}))
-    surname_ru = forms.CharField(label='Фамилия', help_text='Максимум 150 символов',
+    surname_ru = forms.CharField(label='Фамилия', help_text='Максимум 20 символов',
                                  widget=forms.TextInput(
                                      attrs={'class': 'form-control form-control-sm', 'placeholder': 'Фамилия',
                                             'aria-label': "Фамилия", 'aria-describedby': 'basic-addon1'}))
-    patronymic_ru = forms.CharField(label='Отчество', help_text='Максимум 150 символов',
+    patronymic_ru = forms.CharField(label='Отчество', help_text='Максимум 20 символов',
                                     widget=forms.TextInput(
                                         attrs={'class': 'form-control form-control-sm', 'placeholder': 'Отчество',
                                                'aria-label': "Отчество", 'aria-describedby': 'basic-addon1'}))
-    name_en = forms.CharField(label='Name', help_text='Максимум 150 символов',
+    name_en = forms.CharField(label='Name', help_text='Максимум 20 символов',
                               widget=forms.TextInput(
                                   attrs={'class': 'form-control form-control-sm', 'placeholder': 'Name',
                                          'aria-label': 'Name', 'aria-describedby': 'basic-addon2'}))
-    surname_en = forms.CharField(label='Surname', help_text='Максимум 150 символов',
+    surname_en = forms.CharField(label='Surname', help_text='Максимум 20 символов',
                                  widget=forms.TextInput(
                                      attrs={'class': 'form-control form-control-sm', 'placeholder': 'Surname',
                                             'aria-label': 'Surname', 'aria-describedby': 'basic-addon2'}))
-    patronymic_en = forms.CharField(label='Patronymic', help_text='Максимум 150 символов',
+    patronymic_en = forms.CharField(label='Patronymic', help_text='Максимум 20 символов',
                                     widget=forms.TextInput(
                                         attrs={'class': 'form-control form-control-sm', 'placeholder': 'Patronymic',
                                                'aria-label': 'Patronymic', 'aria-describedby': 'basic-addon2'}))
@@ -79,7 +79,7 @@ class UserRegisterForm(UserCreationForm):
                                  widget=forms.RadioSelect(attrs={'class': 'form-check-input'}),
                                  choices=[('1', 'Да'), ('2', 'Нет')],
                                  initial='2')
-    username = forms.CharField(label='Логин', help_text='Максимум 150 символов',
+    username = forms.CharField(label='Логин', help_text='Максимум 20 символов',
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     # USERNAME_FIELD = 'username'
     password1 = forms.CharField(label='Пароль',
